@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HeadyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llCategoriesList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/primary_color_one"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerCategories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/btnCategory"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardElevation="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_dialog_dialer" />
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/btnSort"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardElevation="10dp">
+
+            <TextView
+                android:text="Sort By Ranking"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:textColor="@color/primary_color_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerRanking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerProducts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
+
+
+</RelativeLayout>

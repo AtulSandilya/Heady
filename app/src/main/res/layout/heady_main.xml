@@ -48,36 +48,44 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="right"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llSortingContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:visibility="gone"
+            android:background="@android:color/transparent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerRanking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/btnSort"
+            android:id="@+id/btnCardSort"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardElevation="10dp">
 
             <TextView
-                android:text="Sort By Ranking"
-                android:padding="5dp"
-                android:layout_gravity="center"
-                android:textColor="@color/primary_color_one"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:text="Sort By Ranking"
+                android:textColor="@color/primary_color_one" />
 
         </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerRanking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
-        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

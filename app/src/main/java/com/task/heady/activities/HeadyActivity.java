@@ -8,12 +8,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.task.heady.R;
 import com.task.heady.adapters.RecyclerCategoryAdapters;
 import com.task.heady.adapters.RecyclerProductAdapters;
@@ -24,6 +22,7 @@ import com.task.heady.models.Category;
 import com.task.heady.models.HeadyModel;
 import com.task.heady.models.Product;
 import com.task.heady.models.Ranking;
+import com.task.heady.models.RankingProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +34,22 @@ import retrofit2.Retrofit;
 
 public class HeadyActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private LinearLayout llCategoriesList;
+    private LinearLayout llCategoriesList, llSortingContainer;
     private RecyclerView recyclerCategories, recyclerProducts, recyclerRanking;
-    private CardView btnCategory;
+    private CardView btnCategory, btnCardSort;
 
     private List<Category> categories;
     private List<Product> productList;
     private List<Ranking> rankingList;
+    private List<RankingProduct> rankingProductList;
 
     private RecyclerCategoryAdapters recyclerCategoryAdapters;
     private RecyclerProductAdapters recyclerProductAdapters;
     private RecyclerRankingAdapter recyclerRankingAdapter;
 
     boolean isCategory = false;
+    boolean isSortingVisible = false;
+    int product_position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +68,15 @@ public class HeadyActivity extends AppCompatActivity implements View.OnClickList
         btnCategory = (CardView) findViewById(R.id.btnCategory);
         btnCategory.setOnClickListener(this);
 
+        btnCardSort = (CardView) findViewById(R.id.btnCardSort);
+        btnCardSort.setOnClickListener(this);
+
         llCategoriesList = (LinearLayout) findViewById(R.id.llCategoriesList);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width / 3,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         llCategoriesList.setLayoutParams(lp);
+
+        llSortingContainer = (LinearLayout) findViewById(R.id.llSortingContainer);
 
         categories = new ArrayList<Category>();
         recyclerCategories = (RecyclerView) findViewById(R.id.recyclerCategories);
@@ -132,12 +139,36 @@ public class HeadyActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void handleRecyclerClick (int position) {
+        this.product_position = position;
         recyclerCategoryAdapters.setSelected(position);
         productList.clear();
         productList.addAll(categories.get(position).getProducts());
         recyclerProductAdapters.notifyDataSetChanged();
         isCategory = false;
         llCategoriesList.setVisibility(View.GONE);
+        rankingProductList.clear();
+        recyclerRankingAdapter.updateRankingList(false, 0);
+    }
+
+    public void handleRankingRecyclerClick (int position) {
+        Ranking ranking = rankingList.get(position);
+        rankingProductList = new ArrayList<RankingProduct>();
+        rankingProductList = ranking.getProducts();
+        recyclerRankingAdapter.updateRankingList(true, position);
+        updateProductsAccordingToRanking();
+    }
+
+    private void updateProductsAccordingToRanking() {
+        productList.clear();
+        productList.addAll(categories.get(product_position).getProducts());
+        for (int i = 0; i < rankingProductList.size(); i++) {
+            for (int j = i+1; j < productList.size(); j++) {
+                if (rankingProductList.get(i).getId() != productList.get(j).getId()) {
+                    productList.remove(j);
+                }
+            }
+        }
+        recyclerProductAdapters.notifyDataSetChanged();
     }
 
     @Override
@@ -146,6 +177,19 @@ public class HeadyActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnCategory:
                 manageCategoryUI();
                 break;
+            case R.id.btnCardSort:
+                manageSortingUI();
+                break;
+        }
+    }
+
+    public void manageSortingUI () {
+        if (isSortingVisible) {
+            isSortingVisible = false;
+            llSortingContainer.setVisibility(View.GONE);
+        } else {
+            isSortingVisible = true;
+            llSortingContainer.setVisibility(View.VISIBLE);
         }
     }
 

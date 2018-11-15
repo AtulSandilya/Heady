@@ -146,8 +146,11 @@ public class HeadyActivity extends AppCompatActivity implements View.OnClickList
         recyclerProductAdapters.notifyDataSetChanged();
         isCategory = false;
         llCategoriesList.setVisibility(View.GONE);
-        rankingProductList.clear();
-        recyclerRankingAdapter.updateRankingList(false, 0);
+        if (rankingProductList != null) {
+            rankingProductList.clear();
+            recyclerRankingAdapter.updateRankingList(false, 0);
+        }
+
     }
 
     public void handleRankingRecyclerClick (int position) {
